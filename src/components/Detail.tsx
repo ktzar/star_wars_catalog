@@ -4,33 +4,40 @@ import { AppContext } from '../index'
 
 export default () => {
     const { state, dispatch } = useContext(AppContext)
-    const { currentCharacter: character } = state;
-    const [ planetName, setPlanetName ] = useState('')
-    const [ films, setFilms ] = useState([])
-    const [ starships, setStarships ] = useState([])
+    const { currentCharacter } = state;
+    console.log({state})
 
-    useEffect(async () => {
-        setPlanetName(await fetch(character.homeworld).then(d => d.json()))
-        setFilms(await Promise.all(character.films.map(film => fetch(film).then(d => d.json()))))
-        setStarships(await Promise.all(character.starships.map(starship => fetch(starship).then(d => d.json()))))
-    }, [])
+    const { isLoading, error, data, isFetching } = useQuery(["starWarsCharacter", currentCharacter], async () => {
+        console.log({currentCharacter})
+        const response = await fetch(currentCharacter)
+            .then(res => res.json())
 
-    console.log({character, films, starships, planetName})
+        return {
+            ...response,
+            planet: await fetch(response.homeworld).then(d => d.json()),
+            films: await Promise.all(response.films.map(film => fetch(film).then(d => d.json()))),
+            starships: await Promise.all(response.starships.map(starship => fetch(starship).then(d => d.json())))
+        }
+    });
+
+    console.log({isLoading, error, data})
+
+    if (isLoading) { return "Loading..."}
 
     return (
         <>
-        <h3>{character.name}</h3>
+        <h3>{data.name}</h3>
         <button>Add to favourites</button>
         <ul>
-            <li>Hair colour: {character.hair_color}</li>
-            <li>Eye colour: {character.eye_color}</li>
+            <li>Hair colour: {data.hair_color}</li>
+            <li>Eye colour: {data.eye_color}</li>
             <li>Gender colour</li>
-            <li>Home planet: {planetName.name}</li>
+            <li>Home planet: {data.planet.name}</li>
             <li>Films:
-                <ul>{films.map(f => <li key={f.url}>{f.title}</li>)}</ul>
+                <ul>{data.films.map(f => <li key={f.url}>{f.title}</li>)}</ul>
             </li>
             <li>Starships:
-                <ul>{starships.map(s => <li key={s.url}>{s.name}</li>)}</ul>
+                <ul>{data.starships.map(s => <li key={s.url}>{s.name}</li>)}</ul>
             </li>
         </ul>
 

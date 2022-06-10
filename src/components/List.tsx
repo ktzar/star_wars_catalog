@@ -33,7 +33,7 @@ export default () => {
             <div>Total entries {data.count}, showing {data.people.length}</div>
             <ul>
                 { data.people.map(character => <li onClick={
-                    () => dispatch({action: 'setCurrentCharacter', value: character})
+                    () => dispatch({action: 'setCurrentCharacter', value: character.url})
                 }><ListCharacter {...character}/></li>)}
             </ul>
             { data.previous && <button className="btn btn-primary" onClick={() => dispatch({action: 'gotoPage', value: state.listPage - 1})}>Previous page</button>}
