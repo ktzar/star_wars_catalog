@@ -1,6 +1,7 @@
 import { useQuery } from 'react-query'
+import { SWCharacter } from './context'
 
-export const useSWCharacters = (page) => {
+export const useSWCharacters = (page : number) => {
     const { isLoading, error, data } = useQuery(["starWarsData", page], async (listPage) => {
         const response = await fetch(`https://swapi.dev/api/people?page=${page}`)
             .then(res => res.json())
@@ -9,7 +10,7 @@ export const useSWCharacters = (page) => {
         }
         return {
             ...response,
-            people: await Promise.all(response.results.map(async p => {
+            people: await Promise.all(response.results.map(async (p : SWCharacter)  => {
                 const planet = await fetch(p.homeworld).then(res => res.json())
                 return {...p, planetName: planet.name}
             }))

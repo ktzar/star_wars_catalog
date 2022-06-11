@@ -7,7 +7,11 @@ export default () => {
     console.log(state)
     return (
         <>
-            Favourites: {state.currentScreen} 
+            <h1>Favourites</h1>
+            {!state.favourites || state.favourites.length === 0 && "No favourites"} 
+            {state?.favourites?.map(f => f.name)}
+            <hr/>
+            <button onClick={() => dispatch({action: 'navigateTo', value: 'list'})} className="btn btn-primary">Go to list</button>
         </>
     );
 }

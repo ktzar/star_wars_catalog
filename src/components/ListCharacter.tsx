@@ -1,6 +1,12 @@
-export default ({name, gender, planetName}) =>
+interface ListCharacterProps {
+    name: string
+    gender: string
+    homeworld: string
+}
+
+export default ({name, gender, homeworld} : ListCharacterProps) =>
     <span>
         <strong>{name}</strong>
         {gender === 'female' ? '♀️' : gender === 'male' ? '♂️' : '?' }
-        <span>World: {planetName}</span>
+        <span>World: {homeworld}</span>
     </span>
