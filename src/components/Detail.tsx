@@ -1,44 +1,39 @@
-import { useContext, useState, useEffect } from 'react'
-import { useQuery } from 'react-query'
-import { AppContext } from '../index'
+import { useContext } from 'react'
+import { AppContext } from '../shared/context'
+import { useSWCurrentCharacter } from '../shared/useSWCurrentCharacter'
 
 export default () => {
     const { state, dispatch } = useContext(AppContext)
-    const { currentCharacter } = state;
-    console.log({state})
-
-    const { isLoading, error, data, isFetching } = useQuery(["starWarsCharacter", currentCharacter], async () => {
-        console.log({currentCharacter})
-        const response = await fetch(currentCharacter)
-            .then(res => res.json())
-
-        return {
-            ...response,
-            planet: await fetch(response.homeworld).then(d => d.json()),
-            films: await Promise.all(response.films.map(film => fetch(film).then(d => d.json()))),
-            starships: await Promise.all(response.starships.map(starship => fetch(starship).then(d => d.json())))
-        }
-    });
-
-    console.log({isLoading, error, data})
+    const { isLoading, error, data } = useSWCurrentCharacter()
 
     if (isLoading) { return "Loading..."}
+
+    const favouriteAction = {
+        action: 'toggleFavourite',
+        value: data
+    }
+
+    const favButtonLabel = state.favourites.some(c => c.url === data.url)
+        ? "Remove from favourites"
+        : "Add to favourites"
 
     return (
         <>
         <h3>{data.name}</h3>
-        <button>Add to favourites</button>
+        <button onClick={() => dispatch(favouriteAction)}>{favButtonLabel}</button>
         <ul>
-            <li>Hair colour: {data.hair_color}</li>
-            <li>Eye colour: {data.eye_color}</li>
-            <li>Gender colour</li>
-            <li>Home planet: {data.planet.name}</li>
-            <li>Films:
+            <li><strong>Hair colour</strong>: {data.hair_color}</li>
+            <li><strong>Eye colour</strong>: {data.eye_color}</li>
+            <li><strong>Gender</strong>: {data.gender} </li>
+            <li><strong>Home planet</strong>: {data.planet.name}</li>
+            <li><strong>Films</strong>:
                 <ul>{data.films.map(f => <li key={f.url}>{f.title}</li>)}</ul>
             </li>
-            <li>Starships:
-                <ul>{data.starships.map(s => <li key={s.url}>{s.name}</li>)}</ul>
-            </li>
+            {data.starships.length ? (
+                <li><strong>Starships</strong>:
+                    <ul>{data.starships.map(s => <li key={s.url}>{s.name}</li>)}</ul>
+                </li>
+            ) : "No starships"}
         </ul>
 
             <button onClick={() => {
