@@ -11,5 +11,5 @@ Around 3h
 ## Things to do:
 - Create types for the actions
 - Favourites screen
-- Unit testing
+- Unit testing with RTL and Jest
 - BDD testing

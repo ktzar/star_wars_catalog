@@ -12,7 +12,7 @@ export const useSWCharacters = (page : number) => {
             ...response,
             people: await Promise.all(response.results.map(async (p : SWCharacter)  => {
                 const planet = await fetch(p.homeworld).then(res => res.json())
-                return {...p, planetName: planet.name}
+                return {...p, homeworld: planet.name}
             }))
         }
     })
