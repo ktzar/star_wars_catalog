@@ -1,9 +1,11 @@
 import { useQuery } from 'react-query'
 import { SWCharacter } from './context'
 
+const API_URL = 'https://swapi.dev/api/'
+
 export const useSWCharacters = (page : number) => {
     const { isLoading, error, data } = useQuery(["starWarsData", page], async (listPage) => {
-        const response = await fetch(`https://swapi.dev/api/people?page=${page}`)
+        const response = await fetch(`${API_URL}people?page=${page}`)
             .then(res => res.json())
         if (!response?.results || error) {
             throw new Error()

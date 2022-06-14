@@ -1,4 +1,4 @@
-import React, { useReducer, useContext } from 'react';
+import React, { createContext, useReducer } from 'react';
 
 interface Action {
     action: string,
@@ -66,7 +66,7 @@ export interface SWCharacter {
     starships?: SWShip[]
 }
 
-type Screen = 'list' | 'detail' | 'favourites'
+export type Screen = 'list' | 'detail' | 'favourites'
 
 interface AppState {
     currentScreen: Screen
@@ -82,7 +82,7 @@ export const initialState = {
     currentCharacter: undefined
 }
 
-export const AppContext = React.createContext<{
+export const AppContext = createContext<{
     state: AppState;
     dispatch: React.Dispatch<any>;
 }>({
