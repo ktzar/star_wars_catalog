@@ -22,16 +22,11 @@ Allocate 1 hour to complete this exercise. There is a long list of requirements,
 2)	Character Details View:
     - 	Display detailed information: name, hair color, eye color, gender, and home planet.
     - 	List movie titles the character has appeared in.
-    - 	BONUS List starships the character has piloted.
-    - 	BONUS Allow users to add characters to their favorites list if they are not already added.
-3)	BONUS Favorites View:
+    - 	*BONUS* List starships the character has piloted.
+    - 	*BONUS* Allow users to add characters to their favorites list if they are not already added.
+3)	*BONUS*Favorites View:
     -	Display all characters added to the favorites list with their name, height, gender, and home planet.
-    -	BONUS: Allow users to remove characters from the favorites list.
-    -	BONUS: Provide an option to edit the height or gender of a character.
-
-## Implementation Guidelines:
-- Use TypeScript and React. If you're not familiar with TypeScript or you find yourself time-constrained, we suggest using `any` types and then refining them later.
-- You may use any additional technologies as needed.
+    -	*BONUS* Allow users to remove characters from the favorites list.
 
 ## Evaluation Criteria:
 - We'll focus on your problem-solving approach and implementation.
@@ -41,7 +36,8 @@ Allocate 1 hour to complete this exercise. There is a long list of requirements,
     - Code clarity and readability
 
 ## Additional Considerations:
-
+- Use TypeScript and React. If you're not familiar with TypeScript or you find yourself time-constrained, we suggest using `any` types and then refining them later.
+- You may use any additional technologies as needed.
 - Think about how the project could be scaled for a larger application with multiple teams.
     - State management
     - Requests caching
